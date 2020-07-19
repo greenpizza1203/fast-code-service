@@ -1,25 +1,34 @@
-package com.dex.service
+package org.moeftc.fastcodeservice;
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
-import com.dex.service.CallbackHandler
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import org.moeftc.fastcodeservice.CallbackHandler;
+import org.moeftc.fastcodeservice.Server;
 
-const val TAG = "DexService"
+import java.io.IOException;
 
-class DexService : Service() {
-    var server = Server()
-    override fun onCreate() {
-        server.start()
+
+class DexService extends Service {
+    public static String TAG = "DexService";
+
+    Server server = new Server();
+
+    public void onCreate() {
+        server.start();
     }
 
 
-    override fun onBind(intent: Intent): IBinder {
-        return CallbackHandler
+    public IBinder onBind(Intent intent) {
+        return CallbackHandler.INSTANCE;
     }
 
-    override fun onDestroy() {
-        server.close()
+    public void onDestroy() {
+        try {
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

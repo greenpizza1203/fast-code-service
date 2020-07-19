@@ -1,9 +1,20 @@
-package com.dex.service
+package org.moeftc.fastcodeservice;
 
-object CallbackHandler : CallbackHandlerImpl.Stub() {
-    val callbacks = mutableListOf<Callback>()
-    override fun register(callback: Callback) {
-        callbacks.add(callback)
+import android.os.RemoteException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class CallbackHandler extends CallbackHandlerImpl.Stub {
+    static List<Callback> callbacks = new ArrayList<>();
+    public static CallbackHandler INSTANCE;
+
+    static {
+        INSTANCE = new CallbackHandler();
+    }
+
+    public void register(Callback callback) {
+        callbacks.add(callback);
     }
 
 //    override fun respond(code: Int) {
@@ -12,9 +23,10 @@ object CallbackHandler : CallbackHandlerImpl.Stub() {
 //        lastSocket.getOutputStream().close()
 //    }
 
-    @JvmStatic
-    fun broadcast(opModes: String, dexFile: ByteArray) {
-        callbacks.forEach { it.loadOpModes(opModes, dexFile) }
+    public static void broadcast(String opModes, byte[] dexFile) throws RemoteException {
+        for (Callback callback : callbacks) {
+            callback.loadOpModes(opModes, dexFile);
+        }
     }
 
 }

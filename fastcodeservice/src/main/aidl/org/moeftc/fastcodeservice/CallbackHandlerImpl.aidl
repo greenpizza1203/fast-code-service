@@ -1,8 +1,8 @@
 // CallbackHandlerImpl.aidl
-package com.dex.service;
+package org.moeftc.fastcodeservice;
 
 // Declare any non-default types here with import statements
-import com.dex.service.Callback;
+import org.moeftc.fastcodeservice.Callback;
 interface CallbackHandlerImpl {
     /**
      * Demonstrates some basic types that you can use as parameters

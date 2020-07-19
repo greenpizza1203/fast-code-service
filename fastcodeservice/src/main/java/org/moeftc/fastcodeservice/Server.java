@@ -1,5 +1,6 @@
-package com.dex.service;
+package org.moeftc.fastcodeservice;
 
+import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.IOException;
@@ -13,13 +14,13 @@ public class Server extends Thread {
     public void run() {
         try {
             serverSocket = new ServerSocket(42069);
-            Log.e(DexServiceKt.TAG, "bound to port: " + serverSocket.getLocalPort());
+            Log.e(DexService.TAG, "bound to port: " + serverSocket.getLocalPort());
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();
                     Client.handleClient(socket);
                     socket.close();
-                } catch (SocketException e) {
+                } catch (SocketException | RemoteException e) {
                     break;
                 }
             }
@@ -30,7 +31,7 @@ public class Server extends Thread {
     }
 
     public void close() throws IOException {
-        Log.e(DexServiceKt.TAG, "Shutting down server");
+        Log.e(DexService.TAG, "Shutting down server");
         serverSocket.close();
     }
 }

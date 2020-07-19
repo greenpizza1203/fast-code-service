@@ -1,4 +1,4 @@
-package com.dex.service;
+package org.moeftc.fastcodeservice;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,23 +1,24 @@
-package com.dex.service;
+package org.moeftc.fastcodeservice;
 
+import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-import static com.dex.service.Utilities.readInt;
-import static com.dex.service.Utilities.readNBytes;
+import static org.moeftc.fastcodeservice.Utilities.readInt;
+import static org.moeftc.fastcodeservice.Utilities.readNBytes;
 
 class Client {
     public static Socket lastSocket;
 
-    public static void handleClient(Socket socket) throws IOException {
+    public static void handleClient(Socket socket) throws IOException, RemoteException {
         lastSocket = socket;
         InputStream inputStream = socket.getInputStream();
         boolean verify = Client.verifySignature(inputStream);
         if (!verify) {
-            Log.e(DexServiceKt.TAG, "signature mismatch");
+            Log.e(DexService.TAG, "signature mismatch");
             return;
         }
         String opModes = getOpModes(inputStream);

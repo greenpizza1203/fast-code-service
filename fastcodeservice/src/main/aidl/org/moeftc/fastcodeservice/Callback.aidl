@@ -1,5 +1,5 @@
 // CallbackHandlerImpl.aidl
-package com.dex.service;
+package org.moeftc.fastcodeservice;
 
 // Declare any non-default types here with import statements
 
