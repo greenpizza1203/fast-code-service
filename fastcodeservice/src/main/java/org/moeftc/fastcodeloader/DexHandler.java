@@ -26,7 +26,7 @@ public class DexHandler {
 
     private static void bindToService(Activity context) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("org.moeftc.fastcodeservice", "com.dex.service.DexService"));
+        intent.setComponent(new ComponentName("com.qualcomm.ftcrobotcontroller", "org.moeftc.fastcodeservice.DexService"));
         DexCallback conn = new DexCallback();
         context.bindService(intent, conn, BIND_AUTO_CREATE);
     }
