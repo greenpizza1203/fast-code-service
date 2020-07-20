@@ -1,2 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.moeftc.fastcodeservice"/>
+          package="org.moeftc.fastcodeservice" >
+<application>
+    <service android:name="org.moeftc.fastcodeservice.DexService"
+             android:enabled="true"
+             android:exported="false"/>
+</application>
+
+
+
+</manifest>
