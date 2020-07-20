@@ -1,3 +1,2 @@
 rootProject.name='Fast Code Service'
-include ':app'
 include ':fastcodeservice'
