@@ -30,7 +30,7 @@ public class DexCallback extends Callback.Stub implements ServiceConnection {
 
     @Override
     public void loadOpModes(String opModes, byte[] dexFile) {
-        org.firstinspires.ftc.robotcontroller.moeglobal.opmodeloading.DexOpModeHandler.loadOpModes(opModes, dexFile);
+       DexOpModeHandler.loadOpModes(opModes, dexFile);
     }
 
 }
