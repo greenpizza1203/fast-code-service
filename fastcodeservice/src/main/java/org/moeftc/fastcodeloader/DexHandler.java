@@ -8,6 +8,8 @@ import android.os.Environment;
 import dalvik.system.BaseDexClassLoader;
 import dalvik.system.InMemoryDexClassLoader;
 import dalvik.system.PathClassLoader;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.moeftc.FastCode;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,12 +21,13 @@ public class DexHandler {
     private static final String tempFile = Environment.getDataDirectory() + "/temp.dex";
     private static TeamLessClassLoader parent;
 
-    public static void init(Activity context) {
+    public static void init() {
+        Activity context = FastCode.getActivity();
         parent = new TeamLessClassLoader(context.getClassLoader());
-        bindToService(context);
+        bindToService(FastCode.getActivity());
     }
 
-    private static void bindToService(Activity context) {
+    private static void bindToService(FtcRobotControllerActivity context) {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.qualcomm.ftcrobotcontroller", "org.moeftc.fastcodeservice.DexService"));
         DexCallback conn = new DexCallback();

@@ -51,7 +51,6 @@ public class DexOpModeHandler {
         ClassLoader classLoader = DexHandler.getClassLoader(dexFile);
         Map<String, OpModeMetaAndClass> metaMap = getMetaMap(opModes, classLoader);
         ReflectionHolder.replaceOpModes(metaMap);
-        OpModeLoader.finishUpdate();
 
     }
 }

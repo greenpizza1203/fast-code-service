@@ -1,5 +1,7 @@
 package org.moeftc.fastcodeservice;
 
+import android.content.Intent;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -72,10 +74,14 @@ public class Utilities {
 
 
     public static int readInt(InputStream stream) throws IOException {
-        return stream.read() & 0xFF << 24 |
-                (stream.read() & 0xFF << 16) |
-                (stream.read() & 0xFF << 8) |
+
+        return (stream.read() & 0xFF) << 24 |
+                (stream.read() & 0xFF) << 16 |
+                (stream.read() & 0xFF) << 8 |
                 (stream.read() & 0xFF);
     }
 
+
 }
+
+

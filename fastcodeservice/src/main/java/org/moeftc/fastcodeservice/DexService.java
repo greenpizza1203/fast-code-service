@@ -9,7 +9,7 @@ import org.moeftc.fastcodeservice.Server;
 import java.io.IOException;
 
 
-class DexService extends Service {
+public class DexService extends Service {
     public static String TAG = "DexService";
 
     Server server = new Server();

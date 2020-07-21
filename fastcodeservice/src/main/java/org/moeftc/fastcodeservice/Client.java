@@ -29,6 +29,7 @@ class Client {
 
     private static String getOpModes(InputStream inputStream) throws IOException {
         int stringLength = readInt(inputStream);
+        Log.e("got length", String.valueOf(stringLength));
         return new String(readNBytes(inputStream, stringLength));
     }
 

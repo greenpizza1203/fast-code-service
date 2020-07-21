@@ -1,6 +1,7 @@
 package org.moeftc.fastcodeloader;
 
 import com.qualcomm.ftccommon.FtcEventLoop;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMetaAndClass;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMetaAndInstance;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.moeftc.fastcodeservice.R;
 
 public class ReflectionHolder {
 
@@ -56,13 +58,18 @@ public class ReflectionHolder {
             clearOpModes();
             loadOpModes(opModes);
         }
+        ReflectionHolder.finishUpdate();
+
     }
 
     /*
      * synchronize on opModesLock
      */
     private static void loadOpModes(Map<String, OpModeMetaAndClass> opModes) {
+
+
         opModeClasses.putAll(opModes);
+
     }
 
     /*
@@ -73,12 +80,17 @@ public class ReflectionHolder {
         opModesInstances.keySet().retainAll(justDefault);
     }
 
+    public static void finishUpdate() {
+        updateUI();
+        playInstalledSound();
+    }
+
     public static void updateUI() {
 
-        FtcRobotControllerActivity ftcRobotControllerActivity = FastCode.getActivity();
-        if (ftcRobotControllerActivity == null) return;
+        FtcRobotControllerActivity activity = FastCode.getActivity();
+        if (activity == null) return;
         try {
-            sendUIStateMethod.invoke(FastCode.getActivity().eventLoop);
+            sendUIStateMethod.invoke(activity.eventLoop);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -86,6 +98,10 @@ public class ReflectionHolder {
 //        Method sendUIStateMethod = FtcEventLoop.class.getDeclaredMethod("sendUIState");
     }
 
+    public static void playInstalledSound() {
+        SoundPlayer.getInstance().stopPlayingAll();
+        SoundPlayer.getInstance().startPlaying(FastCode.getActivity(), R.raw.firecode, new SoundPlayer.PlaySoundParams(false), null, null);
+    }
 //    public static void initOpMode(OpModeMetaAndClass opMode) {
 //        Log.e("happening", opMode.meta.name);
 //        ActivityReferenceHolder.activityRefHolder.get().eventLoop.getOpModeManager().initActiveOpMode(opMode.meta.name);
