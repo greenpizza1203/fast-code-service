@@ -2,7 +2,7 @@
 .gradle
 .idea
 /local.properties
-
+/fastcodeservice/build
 .DS_Store
 /build
 /captures
