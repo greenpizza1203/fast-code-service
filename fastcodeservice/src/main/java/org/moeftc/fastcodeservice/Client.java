@@ -10,27 +10,15 @@ import java.net.Socket;
 import static org.moeftc.fastcodeservice.Utilities.readInt;
 import static org.moeftc.fastcodeservice.Utilities.readNBytes;
 
-class Client implements Runnable {
+class Client extends Thread {
     public Socket client;
 
     public Client(Socket client) {
         this.client = client;
+        this.start();
 
-        try {
-            InputStream inputStream = client.getInputStream();
-            boolean verify = Client.verifySignature(inputStream);
-            if (!verify) {
-                Log.e(DexService.TAG, "signature mismatch");
-                return;
-            }
-            String opModes = getOpModes(inputStream);
-            byte[] dexFile = Utilities.readAllBytes(inputStream);
-
-            CallbackHandler.broadcast(opModes, dexFile);
-        } catch (IOException | RemoteException e) {
-            e.printStackTrace();
-        }
     }
+
 
 //    public static void handleClient(Socket socket) throws IOException, RemoteException {
 ////        lastSocket = socket;
@@ -65,7 +53,20 @@ class Client implements Runnable {
 
     @Override
     public void run() {
+        try {
+            InputStream inputStream = client.getInputStream();
+            boolean verify = Client.verifySignature(inputStream);
+            if (!verify) {
+                Log.e(DexService.TAG, "signature mismatch");
+                return;
+            }
+            String opModes = getOpModes(inputStream);
+            byte[] dexFile = Utilities.readAllBytes(inputStream);
 
+            CallbackHandler.broadcast(opModes, dexFile);
+        } catch (IOException | RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
 
