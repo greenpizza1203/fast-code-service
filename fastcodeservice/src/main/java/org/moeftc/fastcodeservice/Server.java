@@ -15,14 +15,9 @@ public class Server extends Thread {
         try {
             serverSocket = new ServerSocket(42069);
             Log.e(DexService.TAG, "bound to port: " + serverSocket.getLocalPort());
+            //noinspection InfiniteLoopStatement
             while (true) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    Client.handleClient(socket);
-                    socket.close();
-                } catch (SocketException | RemoteException e) {
-                    break;
-                }
+                new Client(serverSocket.accept());
             }
         } catch (IOException e) {
             e.printStackTrace();

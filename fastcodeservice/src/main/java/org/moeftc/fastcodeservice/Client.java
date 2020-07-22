@@ -10,22 +10,41 @@ import java.net.Socket;
 import static org.moeftc.fastcodeservice.Utilities.readInt;
 import static org.moeftc.fastcodeservice.Utilities.readNBytes;
 
-class Client {
-    public static Socket lastSocket;
+class Client implements Runnable {
+    public Socket client;
 
-    public static void handleClient(Socket socket) throws IOException, RemoteException {
-        lastSocket = socket;
-        InputStream inputStream = socket.getInputStream();
-        boolean verify = Client.verifySignature(inputStream);
-        if (!verify) {
-            Log.e(DexService.TAG, "signature mismatch");
-            return;
+    public Client(Socket client) {
+        this.client = client;
+
+        try {
+            InputStream inputStream = client.getInputStream();
+            boolean verify = Client.verifySignature(inputStream);
+            if (!verify) {
+                Log.e(DexService.TAG, "signature mismatch");
+                return;
+            }
+            String opModes = getOpModes(inputStream);
+            byte[] dexFile = Utilities.readAllBytes(inputStream);
+
+            CallbackHandler.broadcast(opModes, dexFile);
+        } catch (IOException | RemoteException e) {
+            e.printStackTrace();
         }
-        String opModes = getOpModes(inputStream);
-        byte[] dexFile = Utilities.readAllBytes(inputStream);
-
-        CallbackHandler.broadcast(opModes, dexFile);
     }
+
+//    public static void handleClient(Socket socket) throws IOException, RemoteException {
+////        lastSocket = socket;
+//        InputStream inputStream = socket.getInputStream();
+//        boolean verify = Client.verifySignature(inputStream);
+//        if (!verify) {
+//            Log.e(DexService.TAG, "signature mismatch");
+//            return;
+//        }
+//        String opModes = getOpModes(inputStream);
+//        byte[] dexFile = Utilities.readAllBytes(inputStream);
+//
+//        CallbackHandler.broadcast(opModes, dexFile);
+//    }
 
     private static String getOpModes(InputStream inputStream) throws IOException {
         int stringLength = readInt(inputStream);
@@ -44,6 +63,10 @@ class Client {
     }
 
 
+    @Override
+    public void run() {
+
+    }
 }
 
 
