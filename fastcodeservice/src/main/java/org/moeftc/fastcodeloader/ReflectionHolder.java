@@ -46,7 +46,9 @@ public class ReflectionHolder {
             opModesInstances = (LinkedHashMap<String, OpModeMetaAndInstance>) opModeInstances1.get(instance);
             opModesLock = opModesLock1.get(instance);
             sendUIStateMethod = FtcEventLoop.class.getDeclaredMethod("sendUIState");
+            sendUIStateMethod.setAccessible(true);
             eventloop = FtcRobotControllerActivity.class.getDeclaredField("eventLoop");
+            eventloop.setAccessible(true);
         } catch (IllegalAccessException | NoSuchFieldException | NoSuchMethodException e) {
             e.printStackTrace();
         }
