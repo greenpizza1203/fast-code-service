@@ -66,6 +66,12 @@ class Client extends Thread {
             CallbackHandler.broadcast(opModes, dexFile);
         } catch (IOException | RemoteException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
