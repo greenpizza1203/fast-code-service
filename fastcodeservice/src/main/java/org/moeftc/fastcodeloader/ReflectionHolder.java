@@ -92,12 +92,11 @@ public class ReflectionHolder {
         FtcRobotControllerActivity activity = FastCode.getActivity();
         if (activity == null) return;
         try {
+            System.out.println(opModeClasses);
             sendUIStateMethod.invoke(eventloop.get(activity));
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-//        Method sendUIStateMethod = FtcEventLoop.class.getDeclaredMethod("sendUIState");
     }
 
     public static void playInstalledSound() {
