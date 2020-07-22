@@ -15,7 +15,7 @@ public class DexOpModeHandler {
         String[] opmodes = opmodeString.split("\n");
         Map<String, OpModeMetaAndClass> metaMap = new ArrayMap<>();
 
-        addFlavor(AUTONOMOUS, opmodes[0], metaMap, classLoader);
+        if (opmodes.length > 0) addFlavor(AUTONOMOUS, opmodes[0], metaMap, classLoader);
         if (opmodes.length > 1) addFlavor(TELEOP, opmodes[1], metaMap, classLoader);
 
 

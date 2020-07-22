@@ -104,10 +104,6 @@ public class ReflectionHolder {
         SoundPlayer.getInstance().stopPlayingAll();
         SoundPlayer.getInstance().startPlaying(FastCode.getActivity(), R.raw.firecode, new SoundPlayer.PlaySoundParams(false), null, null);
     }
-//    public static void initOpMode(OpModeMetaAndClass opMode) {
-//        Log.e("happening", opMode.meta.name);
-//        ActivityReferenceHolder.activityRefHolder.get().eventLoop.getOpModeManager().initActiveOpMode(opMode.meta.name);
-//
-//    }
+
 }
 
