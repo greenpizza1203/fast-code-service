@@ -28,8 +28,10 @@ public class ReflectionHolder {
     public static Object opModesLock;
 
     public static Method sendUIStateMethod;
+    public static Field eventloop;
 
     @SuppressWarnings("unchecked")
+
     public static void init() {
         try {
 
@@ -44,7 +46,7 @@ public class ReflectionHolder {
             opModesInstances = (LinkedHashMap<String, OpModeMetaAndInstance>) opModeInstances1.get(instance);
             opModesLock = opModesLock1.get(instance);
             sendUIStateMethod = FtcEventLoop.class.getDeclaredMethod("sendUIState");
-
+            eventloop = FtcRobotControllerActivity.class.getDeclaredField("eventLoop");
         } catch (IllegalAccessException | NoSuchFieldException | NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -90,7 +92,7 @@ public class ReflectionHolder {
         FtcRobotControllerActivity activity = FastCode.getActivity();
         if (activity == null) return;
         try {
-            sendUIStateMethod.invoke(activity.eventLoop);
+            sendUIStateMethod.invoke(eventloop.get(activity));
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
