@@ -12,12 +12,11 @@ import static org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta.Flavor.
 
 public class DexOpModeHandler {
     public static Map<String, OpModeMetaAndClass> getMetaMap(String opmodeString, ClassLoader classLoader) {
-//        Log.e(DexServiceKt.TAG,opmodeString);
         String[] opmodes = opmodeString.split("\n");
         Map<String, OpModeMetaAndClass> metaMap = new ArrayMap<>();
 
-        DexOpModeHandler.addFlavor(AUTONOMOUS, opmodes[0], metaMap, classLoader);
-        DexOpModeHandler.addFlavor(TELEOP, opmodes[1], metaMap, classLoader);
+        addFlavor(AUTONOMOUS, opmodes[0], metaMap, classLoader);
+        if (opmodes.length > 1) addFlavor(TELEOP, opmodes[1], metaMap, classLoader);
 
 
         return metaMap;
@@ -25,6 +24,8 @@ public class DexOpModeHandler {
 
 
     private static void addFlavor(OpModeMeta.Flavor flavor, String opModes, Map<String, OpModeMetaAndClass> map, ClassLoader classLoader) {
+        if (opModes.isEmpty()) return;
+
         String[] autoDetails = opModes.split("/");
 
         for (int i = 0; i < autoDetails.length; i += 2) {
