@@ -3,10 +3,12 @@ package org.moeftc.fastcodeloader;
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMetaAndClass;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMetaAndInstance;
 import org.firstinspires.ftc.robotcore.internal.opmode.RegisteredOpModes;
 import org.moeftc.FastCode;
+import org.moeftc.fastcodeservice.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,9 +17,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-import org.moeftc.fastcodeservice.R;
 
 public class ReflectionHolder {
 
@@ -103,7 +102,7 @@ public class ReflectionHolder {
 
     public static void playInstalledSound() {
         SoundPlayer.getInstance().stopPlayingAll();
-        SoundPlayer.getInstance().startPlaying(FastCode.getActivity(), R.raw.firecode, new SoundPlayer.PlaySoundParams(false), null, null);
+        SoundPlayer.getInstance().startPlaying(FastCode.getActivity(), R.raw.fastcode, new SoundPlayer.PlaySoundParams(false), null, null);
     }
 
 }

@@ -1,12 +1,10 @@
 package org.moeftc.fastcodeservice;
 
-import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class Server extends Thread {
     private ServerSocket serverSocket;
@@ -17,7 +15,15 @@ public class Server extends Thread {
             Log.e(DexService.TAG, "bound to port: " + serverSocket.getLocalPort());
             //noinspection InfiniteLoopStatement
             while (true) {
-                new Client(serverSocket.accept());
+                Log.e(DexService.TAG, "waiting for connection");
+
+                Socket accept = serverSocket.accept();
+                Log.e(DexService.TAG, "finally");
+
+                new Client(accept);
+                Log.e(DexService.TAG, "here we go again");
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();

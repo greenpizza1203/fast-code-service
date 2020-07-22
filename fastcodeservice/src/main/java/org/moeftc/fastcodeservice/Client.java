@@ -14,39 +14,21 @@ class Client extends Thread {
     public Socket client;
 
     public Client(Socket client) {
+        Log.e("client connection", "opened");
         this.client = client;
         this.start();
 
     }
 
-
-//    public static void handleClient(Socket socket) throws IOException, RemoteException {
-////        lastSocket = socket;
-//        InputStream inputStream = socket.getInputStream();
-//        boolean verify = Client.verifySignature(inputStream);
-//        if (!verify) {
-//            Log.e(DexService.TAG, "signature mismatch");
-//            return;
-//        }
-//        String opModes = getOpModes(inputStream);
-//        byte[] dexFile = Utilities.readAllBytes(inputStream);
-//
-//        CallbackHandler.broadcast(opModes, dexFile);
-//    }
-
     private static String getOpModes(InputStream inputStream) throws IOException {
         int stringLength = readInt(inputStream);
-        Log.e("got length", String.valueOf(stringLength));
         return new String(readNBytes(inputStream, stringLength));
     }
 
     public static int[] signature = new int[]{3, 6, 5};
 
     private static boolean verifySignature(InputStream inputStream) throws IOException {
-        for (int i : Client.signature) {
-
-            if (i != inputStream.read()) return false;
-        }
+        for (int i : Client.signature) if (i != inputStream.read()) return false;
         return true;
     }
 
@@ -58,20 +40,16 @@ class Client extends Thread {
             boolean verify = Client.verifySignature(inputStream);
             if (!verify) {
                 Log.e(DexService.TAG, "signature mismatch");
+                client.close();
                 return;
             }
             String opModes = getOpModes(inputStream);
             byte[] dexFile = Utilities.readAllBytes(inputStream);
+            client.close();
 
             CallbackHandler.broadcast(opModes, dexFile);
         } catch (IOException | RemoteException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                client.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }
